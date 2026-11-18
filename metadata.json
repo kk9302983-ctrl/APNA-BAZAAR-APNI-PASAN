@@ -1,0 +1,6 @@
+{
+  "name": "Apna Bazaar",
+  "description": "Hyperlocal grocery and daily essentials delivery app with Customer Shopping and role-protected Admin Management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

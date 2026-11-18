@@ -1,0 +1,398 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Customer profile record isolated to the user or admin.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "selectedAddressId": { "type": "string" },
+        "language": { "type": "string", "enum": ["en", "hi"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "phone", "email", "language", "createdAt", "updatedAt"]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized store administrators. No public registration.",
+      "type": "object",
+      "properties": {
+        "adminId": { "type": "string" },
+        "email": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["super_admin", "manager"] },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["adminId", "email", "name", "role", "active", "createdAt", "updatedAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Grocery product categories managed by admin.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "iconKey": { "type": "string" },
+        "sortOrder": { "type": "integer" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "iconKey", "sortOrder", "active", "createdAt", "updatedAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Store-owned grocery and daily essentials SKU.",
+      "type": "object",
+      "properties": {
+        "productName": { "type": "string" },
+        "brand": { "type": "string" },
+        "description": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "categoryName": { "type": "string" },
+        "imageUrls": { "type": "array" },
+        "sellingPrice": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "unit": { "type": "string" },
+        "stockQuantity": { "type": "integer" },
+        "reservedQuantity": { "type": "integer" },
+        "soldQuantity": { "type": "integer" },
+        "lowStockThreshold": { "type": "integer" },
+        "available": { "type": "boolean" },
+        "active": { "type": "boolean" },
+        "bestSeller": { "type": "boolean" },
+        "recommended": { "type": "boolean" },
+        "dailyOffer": { "type": "boolean" },
+        "popular": { "type": "boolean" },
+        "featured": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "productName", "brand", "categoryId", "categoryName", "imageUrls",
+        "sellingPrice", "originalPrice", "unit", "stockQuantity", "reservedQuantity",
+        "soldQuantity", "lowStockThreshold", "available", "active", "createdAt", "updatedAt"
+      ]
+    },
+    "Cart": {
+      "title": "Cart",
+      "description": "Customer cart metadata including applied coupon code.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "couponCode": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "createdAt", "updatedAt"]
+    },
+    "CartItem": {
+      "title": "CartItem",
+      "description": "Individual product line item in a customer's cart.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "brand": { "type": "string" },
+        "unit": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "sellingPrice": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "quantity": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId", "productId", "productName", "unit", "sellingPrice",
+        "originalPrice", "quantity", "createdAt", "updatedAt"
+      ]
+    },
+    "Address": {
+      "title": "Address",
+      "description": "Saved customer delivery address with geolocation and serviceability.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "label": { "type": "string" },
+        "recipientName": { "type": "string" },
+        "phone": { "type": "string" },
+        "houseLine": { "type": "string" },
+        "areaLine": { "type": "string" },
+        "landmark": { "type": "string" },
+        "pincode": { "type": "string" },
+        "latitude": { "type": "number" },
+        "longitude": { "type": "number" },
+        "serviceable": { "type": "boolean" },
+        "defaultAddress": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId", "label", "recipientName", "phone", "houseLine", "areaLine",
+        "pincode", "latitude", "longitude", "serviceable", "defaultAddress", "createdAt", "updatedAt"
+      ]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer order with immutable address and line item snapshots.",
+      "type": "object",
+      "properties": {
+        "orderNumber": { "type": "string" },
+        "customerId": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "addressSnapshot": { "type": "object" },
+        "deliveryInstructions": { "type": "string" },
+        "orderItemsSnapshot": { "type": "array" },
+        "subtotal": { "type": "number" },
+        "discount": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "grandTotal": { "type": "number" },
+        "couponCode": { "type": "string" },
+        "paymentMethod": { "type": "string", "enum": ["COD", "RAZORPAY"] },
+        "paymentStatus": { "type": "string", "enum": ["Pending", "Awaiting Verification", "Paid", "Failed", "Refunded"] },
+        "orderStatus": { "type": "string", "enum": ["Pending", "Confirmed", "Preparing", "Packed", "Out for Delivery", "Delivered", "Cancelled"] },
+        "estimatedDeliveryMinutes": { "type": "string" },
+        "cancelReason": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "orderNumber", "customerId", "customerName", "customerPhone", "addressSnapshot",
+        "orderItemsSnapshot", "subtotal", "discount", "deliveryFee", "grandTotal",
+        "paymentMethod", "paymentStatus", "orderStatus", "estimatedDeliveryMinutes",
+        "createdAt", "updatedAt"
+      ]
+    },
+    "OrderItem": {
+      "title": "OrderItem",
+      "description": "Normalized snapshot item linked to an order.",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "unit": { "type": "string" },
+        "sellingPrice": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "quantity": { "type": "integer" },
+        "lineTotal": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "orderId", "customerId", "productId", "productName", "unit",
+        "sellingPrice", "originalPrice", "quantity", "lineTotal", "createdAt"
+      ]
+    },
+    "Coupon": {
+      "title": "Coupon",
+      "description": "Discount coupon managed by admin.",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "description": { "type": "string" },
+        "discountType": { "type": "string", "enum": ["FLAT", "PERCENT"] },
+        "discountValue": { "type": "number" },
+        "minOrderValue": { "type": "number" },
+        "maxDiscount": { "type": "number" },
+        "expiryEpochMs": { "type": "integer" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "code", "discountType", "discountValue", "minOrderValue",
+        "maxDiscount", "expiryEpochMs", "active", "createdAt", "updatedAt"
+      ]
+    },
+    "DeliveryZone": {
+      "title": "DeliveryZone",
+      "description": "Hyperlocal delivery zone (2-3 km service area).",
+      "type": "object",
+      "properties": {
+        "zoneName": { "type": "string" },
+        "centerLat": { "type": "number" },
+        "centerLng": { "type": "number" },
+        "radiusKm": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "minOrderAmount": { "type": "number" },
+        "estimatedMinutes": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "zoneName", "centerLat", "centerLng", "radiusKm", "deliveryFee",
+        "minOrderAmount", "estimatedMinutes", "active", "createdAt", "updatedAt"
+      ]
+    },
+    "AppSettings": {
+      "title": "AppSettings",
+      "description": "Store-wide operating configuration and delivery defaults.",
+      "type": "object",
+      "properties": {
+        "storeName": { "type": "string" },
+        "tagline": { "type": "string" },
+        "serviceAvailable": { "type": "boolean" },
+        "operatingHours": { "type": "string" },
+        "defaultDeliveryFee": { "type": "number" },
+        "minOrderAmount": { "type": "number" },
+        "serviceRadiusKm": { "type": "number" },
+        "storeLat": { "type": "number" },
+        "storeLng": { "type": "number" },
+        "estimatedDeliveryText": { "type": "string" },
+        "supportPhone": { "type": "string" },
+        "supportEmail": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "storeName", "tagline", "serviceAvailable", "operatingHours",
+        "defaultDeliveryFee", "minOrderAmount", "serviceRadiusKm",
+        "storeLat", "storeLng", "estimatedDeliveryText", "updatedAt"
+      ]
+    },
+    "PaymentRecord": {
+      "title": "PaymentRecord",
+      "description": "Order payment audit record; online verification controlled by trusted backend/admin.",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "paymentMethod": { "type": "string", "enum": ["COD", "RAZORPAY"] },
+        "paymentStatus": { "type": "string", "enum": ["Pending", "Awaiting Verification", "Paid", "Failed", "Refunded"] },
+        "amount": { "type": "number" },
+        "gatewayRef": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "orderId", "customerId", "paymentMethod", "paymentStatus",
+        "amount", "createdAt", "updatedAt"
+      ]
+    },
+    "InventoryLog": {
+      "title": "InventoryLog",
+      "description": "Immutable inventory movement audit entry recorded by admin.",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "changeType": { "type": "string", "enum": ["RESTOCK", "ADJUSTMENT", "RESERVE", "RELEASE", "SALE"] },
+        "quantityDelta": { "type": "integer" },
+        "previousStock": { "type": "integer" },
+        "newStock": { "type": "integer" },
+        "reason": { "type": "string" },
+        "adminUid": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "productId", "productName", "changeType", "quantityDelta",
+        "previousStock", "newStock", "reason", "adminUid", "adminEmail", "createdAt"
+      ]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "In-app order and status update notification for customers.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "orderId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "read", "createdAt"]
+    },
+    "OrderStatusHistory": {
+      "title": "OrderStatusHistory",
+      "description": "Append-only order lifecycle activity history.",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "customerId": { "type": "string" },
+        "status": { "type": "string" },
+        "note": { "type": "string" },
+        "changedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "customerId", "status", "changedBy", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Customer profiles keyed by Firebase Auth UID."
+    },
+    "/admin_users/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Authorized admin accounts keyed by UID."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Store product categories."
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Store-owned product catalog and live stock counts."
+    },
+    "/carts/{userId}": {
+      "schema": { "$ref": "#/entities/Cart" },
+      "description": "Customer cart metadata."
+    },
+    "/cart_items/{cartItemId}": {
+      "schema": { "$ref": "#/entities/CartItem" },
+      "description": "Customer shopping cart line items."
+    },
+    "/addresses/{addressId}": {
+      "schema": { "$ref": "#/entities/Address" },
+      "description": "Customer saved delivery addresses."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer orders with snapshots and status."
+    },
+    "/order_items/{orderItemId}": {
+      "schema": { "$ref": "#/entities/OrderItem" },
+      "description": "Normalized order line item snapshots."
+    },
+    "/coupons/{couponId}": {
+      "schema": { "$ref": "#/entities/Coupon" },
+      "description": "Promotional discount coupons."
+    },
+    "/delivery_zones/{zoneId}": {
+      "schema": { "$ref": "#/entities/DeliveryZone" },
+      "description": "Configured local 2-3 km delivery zones."
+    },
+    "/app_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/AppSettings" },
+      "description": "Global store delivery & operating configuration."
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/PaymentRecord" },
+      "description": "Payment records for COD and Razorpay verification."
+    },
+    "/inventory_logs/{logId}": {
+      "schema": { "$ref": "#/entities/InventoryLog" },
+      "description": "Admin inventory audit log."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/AppNotification" },
+      "description": "Customer order notifications."
+    },
+    "/order_status_history/{historyId}": {
+      "schema": { "$ref": "#/entities/OrderStatusHistory" },
+      "description": "Order status transition history."
+    }
+  }
+}

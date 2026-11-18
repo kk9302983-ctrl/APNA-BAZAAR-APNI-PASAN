@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Apna Bazaar</string>
+    <string name="brand_title">APNA BAZAAR | APNI PASAND</string>
+    <string name="brand_tagline">Your Daily Needs, At Your Doorstep.</string>
+    <string name="delivery_eta_badge">Delivery in 30–60 mins</string>
+    <string name="service_unavailable_banner">Delivery is currently unavailable at your selected location or outside our 2–3 km zone.</string>
+    <string name="sign_in_google">Sign in with Google</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_categories">Categories</string>
+    <string name="nav_cart">Cart</string>
+    <string name="nav_orders">Orders</string>
+    <string name="nav_profile">Profile</string>
+    <string name="admin_portal_title">Admin Management</string>
+    <string name="cod_label">Cash on Delivery</string>
+    <string name="razorpay_label">Online Payment (Razorpay)</string>
+    <string name="razorpay_note">Modular gateway: online orders remain Awaiting Verification until confirmed by trusted backend.</string>
+</resources>
